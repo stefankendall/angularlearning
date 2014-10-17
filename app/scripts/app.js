@@ -8,10 +8,4 @@
  *
  * Main module of the application.
  */
-angular
-  .module('angularApp', [
-    'ngAnimate',
-    'ngCookies',
-    'ngSanitize',
-    'ngTouch'
-  ]);
+angular.module('sportsStore', ['customFilters']);
