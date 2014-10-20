@@ -8,4 +8,4 @@
  *
  * Main module of the application.
  */
-angular.module('sportsStore', ['customFilters']);
+angular.module('sportsStore', ['customFilters', 'cart']);

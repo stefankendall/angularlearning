@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('sportsStore')
-    .constant("dataUrl", "http://localhost:5500/products")
+    .constant('dataUrl', 'http://localhost:5500/products')
     .controller('sportsStoreController', function ($scope, $http, dataUrl) {
         $scope.data = {
         };

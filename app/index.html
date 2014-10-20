@@ -1,50 +1,30 @@
 <!doctype html>
 <html class="no-js" ng-app="sportsStore">
 <head>
-  <meta charset="utf-8">
-  <title></title>
-  <meta name="description" content="">
-  <meta name="viewport" content="width=device-width">
-  <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
-  <!-- build:css(.) styles/vendor.css -->
-  <!-- bower:css -->
-  <!-- endbower -->
-  <!-- endbuild -->
-  <!-- build:css(.tmp) styles/main.css -->
-  <link rel="stylesheet" href="styles/main.css">
-  <!-- endbuild -->
+    <meta charset="utf-8">
+    <title></title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width">
+    <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+    <!-- build:css(.) styles/vendor.css -->
+    <!-- bower:css -->
+    <!-- endbower -->
+    <!-- endbuild -->
+    <!-- build:css(.tmp) styles/main.css -->
+    <link rel="stylesheet" href="styles/main.css">
+    <!-- endbuild -->
 </head>
 <body ng-controller="sportsStoreController"><!-- Add your site or application content here -->
 
 <div class="navbar navbar-inverse">
-  <a class="navbar-brand" href="#">SPORTS STORE</a>
+    <a class="navbar-brand" href="#">SPORTS STORE</a>
+    <cart-summary/>
 </div>
-<div class="panel panel-default row" ng-controller="productListController">
-  <div class="col-xs-3">
-    <a ng-click="selectCategory()" class="btn btn-block btn-default btn-lg">Home</a>
-    <a ng-repeat="item in data.products | orderBy:'category' | unique:'category'"
-       ng-click="selectCategory(item)" class="btn btn-block btn-default btn-lg"
-       ng-class="getCategoryClass(item)">
-      {{item}}
-    </a>
-  </div>
-  <div class="col-xs-8">
-    <div class="well" ng-repeat="item in data.products | filter:categoryFilterFn | range:selectedPage:pageSize">
-      <h3>
-        <strong>{{item.name}}</strong>
-        <span class="pull-right label label-primary">{{item.price | currency}}</span>
-      </h3>
-      <span class="lead">{{item.description}}</span>
-    </div>
-    <div class="pull-right btn-group">
-      <a ng-repeat="page in data.products | filter:categoryFilterFn | pageCount:pageSize"
-         ng-click="selectPage($index + 1)" class="btn btn-default" ng-class="getPageClass($index + 1)">
-        {{$index + 1}}
-      </a>
-    </div>
-  </div>
+<div class="alert alert-danger" ng-show="data.error" ng-cloak>
+    Error ({{data.error.status}}). Couldn't get products!
+    <a href="/" class="alert-link">Try again?</a>
 </div>
-
+<ng-include src="'views/productList.html'"></ng-include>
 <!-- build:js(.) scripts/oldieshim.js -->
 <!--[if lt IE 9]>
 <script src="bower_components/es5-shim/es5-shim.js"></script>
@@ -79,6 +59,7 @@
 <script src="scripts/app.js"></script>
 <script src="scripts/controllers/main.js"></script>
 <script src="scripts/controllers/productListControllers.js"></script>
+<script src="components/cart/cart.js"></script>
 <script src="scripts/filters/customFilters.js"></script>
 <!-- endbuild -->
 </body>
