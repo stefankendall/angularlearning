@@ -49,21 +49,39 @@
 
 <!-- build:js({.tmp,app}) scripts/scripts.js -->
 <script type="text/javascript">
-    var myApp = angular.module('exampleApp', []);
-    myApp.controller('dayController', function ($scope) {
-        var dayNames = ['Sunday', 'Monday', 'Tue', 'Wed', 'Thu', 'Fri', 'Saturday'];
-        $scope.day = dayNames[new Date().getDay()];
-        $scope.tomorrow = dayNames[(new Date().getDay() + 1) % 7];
+    var dayNames = ['Sunday', 'Monday', 'Tue', 'Wed', 'Thu', 'Fri', 'Saturday'];
+    var myApp = angular.module('exampleApp', ['exampleApp.Controllers']);
+    myApp.directive('highlight', function ($filter) {
+        var dayFilter = $filter('dayName');
+        return function (scope, element, attrs) {
+            if (dayFilter(scope.day) == attrs['highlight']) {
+                element.css('color', 'red');
+            }
+        };
+    });
+
+    myApp.filter('dayName', function () {
+        return function (input) {
+            return angular.isNumber(input) ? dayNames[input] : input;
+        };
+    });
+
+    myApp.value('nowValue', new Date());
+
+    myApp.service('days', function (nowValue) {
+        this.today = nowValue.getDay();
+        this.tomorrow = this.today + 1;
     });
 </script>
+<script type="text/javascript" src="scripts/controllers.js"></script>
 <!-- endbuild -->
 
-<div class="panel" ng-controller="dayController">
+<div class="panel">
     <div class="page-header">
         <h3>Angular app</h3>
     </div>
-    <h4 ng-cloak>Today is {{day || '(UNKNOWN)'}}</h4>
-    <h4 ng-cloak>Tomorra is {{tomorrow || '(UNKNOWN)'}}</h4>
+    <h4 ng-cloak ng-controller="dayController" highlight="Wed">Today is {{day || '(UNKNOWN)' | dayName}}</h4>
+    <h4 ng-cloak ng-controller="tomorrowController">Tomorra is {{tomorrow || '(UNKNOWN)' | dayName}}</h4>
 </div>
 </body>
 </html>
