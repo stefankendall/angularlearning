@@ -1,8 +1,8 @@
 <!doctype html>
-<html class="no-js" ng-app="sportsStore">
+<html class="no-js" ng-app="exampleApp">
 <head>
     <meta charset="utf-8">
-    <title></title>
+    <title>Example</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width">
     <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
@@ -14,17 +14,7 @@
     <link rel="stylesheet" href="styles/main.css">
     <!-- endbuild -->
 </head>
-<body ng-controller="sportsStoreController"><!-- Add your site or application content here -->
-
-<div class="navbar navbar-inverse">
-    <a class="navbar-brand" href="#">SPORTS STORE</a>
-    <cart-summary/>
-</div>
-<div class="alert alert-danger" ng-show="data.error" ng-cloak>
-    Error ({{data.error.status}}). Couldn't get products!
-    <a href="/" class="alert-link">Try again?</a>
-</div>
-<ng-view></ng-view>
+<body><!-- Add your site or application content here -->
 <!-- build:js(.) scripts/oldieshim.js -->
 <!--[if lt IE 9]>
 <script src="bower_components/es5-shim/es5-shim.js"></script>
@@ -58,12 +48,22 @@
 <!-- endbuild -->
 
 <!-- build:js({.tmp,app}) scripts/scripts.js -->
-<script src="scripts/app.js"></script>
-<script src="scripts/controllers/main.js"></script>
-<script src="scripts/controllers/productListControllers.js"></script>
-<script src="scripts/controllers/checkoutControllers.js"></script>
-<script src="components/cart/cart.js"></script>
-<script src="scripts/filters/customFilters.js"></script>
+<script type="text/javascript">
+    var myApp = angular.module('exampleApp', []);
+    myApp.controller('dayController', function ($scope) {
+        var dayNames = ['Sunday', 'Monday', 'Tue', 'Wed', 'Thu', 'Fri', 'Saturday'];
+        $scope.day = dayNames[new Date().getDay()];
+        $scope.tomorrow = dayNames[(new Date().getDay() + 1) % 7];
+    });
+</script>
 <!-- endbuild -->
+
+<div class="panel" ng-controller="dayController">
+    <div class="page-header">
+        <h3>Angular app</h3>
+    </div>
+    <h4 ng-cloak>Today is {{day || '(UNKNOWN)'}}</h4>
+    <h4 ng-cloak>Tomorra is {{tomorrow || '(UNKNOWN)'}}</h4>
+</div>
 </body>
 </html>
