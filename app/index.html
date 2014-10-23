@@ -51,6 +51,7 @@
 <script type="text/javascript">
     angular.module('exampleApp', [])
             .controller('defaultController', function ($scope) {
+                $scope.data = {};
                 $scope.todos = [
                     {action: 'Get grocers', complete: false},
                     {action: 'Call plumber', complete: false},
@@ -61,15 +62,47 @@
 </script>
 <!-- endbuild -->
 
-<div id="todoPanel" class="panel" ng-controller="defaultController">
+<div id="todoPanel" class="panel" ng-controller="defaultController" ng-cloak>
     <h3 class="panel-header">To Do List</h3>
 
     <div class="well">
-        <div>The first item is: {{todos[0].action}}</div>
+        <div class="radio" ng-repeat="button in ['None', 'Table', 'List']">
+            <label for="showList">
+                <input type="radio" ng-model="data.mode" value="{{button}}" ng-checked="$first"/>
+                {{button}}
+            </label>
+        </div>
     </div>
-    <div class="form-group well">
-        <label for="firstItem">Set First Item:</label>
-        <input id="firstItem" name="firstItem" class="form-control" ng-model="todos[0].action"/>
+    <div ng-switch on="data.mode">
+        <div ng-switch-when="Table">
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Action</th>
+                    <th>Done</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="item in todos">
+                    <td>{{$index + 1}}</td>
+                    <td>{{item.action}}</td>
+                    <td>{{item.complete}}</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div ng-switch-when="List">
+            <ol>
+                <li ng-repeat="item in todos">
+                    {{item.action}}
+                    <span ng-if="item.complete"> (Done)</span>
+                </li>
+            </ol>
+        </div>
+        <div ng-switch-default>
+            Catch a riiiiiiide!
+        </div>
     </div>
 </div>
 </body>
